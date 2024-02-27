@@ -4,11 +4,18 @@ import { useEffect, useState } from "react";
 
 export default function Recipes() {
     const [recipes, setRecipes] = useState([]);
+    const [searchItem,setSearchItem] =useState("");
 
     const searchRecipes = () => {
         // prepare url
         const url = new URL('https://api.spoonacular.com/recipes/complexSearch');
-        url.searchParams.append('apiKey', '682ecbd217144c468f8557a129534144');
+        url.searchParams.append('apiKey', process.env.REACT_APP_SPOONACULAR_API_KEY);
+        url.searchParams.append('query', searchItem); //Add the query parameter
+
+        // Try-outs
+        // url.searchParams.append('number', 25);
+        // url.searchParams.append('offset', 5);
+
         // fetch recipes
         fetch(url)
             // .then((response) => {return response.json()})
@@ -30,7 +37,10 @@ export default function Recipes() {
                 fullWidth
                 id="outlined-basic"
                 label="Enter a keyboard to search recipes and hit Enter"
-                variant="outlined" />
+                variant="outlined"
+                value={searchItem}
+                    onChange={(event) => setSearchItem(event.target.value)}
+                onKeyDown={(event) => event.key === 'Enter' && searchRecipes()}/>
 
             <Grid sx={{ mt: '1rem' }} container spacing={3}>
                 {recipes.map((recipe) => <RecipeItem key={recipe.id} title={recipe.title} image={recipe.image} />)}
