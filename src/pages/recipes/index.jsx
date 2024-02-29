@@ -12,7 +12,7 @@ export default function Recipes() {
     const searchRecipes = () => {
         setLoading(true);
         // prepare url
-        const url = new URL('https://api.spoonacular.com/recipes/complexSearch');
+        const url = new URL("https://api.spoonacular.com/recipes/complexSearch");
         url.searchParams.append('apiKey', process.env.REACT_APP_SPOONACULAR_API_KEY);
         url.searchParams.append('query', searchItem); //Add the query parameter
 
@@ -52,7 +52,7 @@ export default function Recipes() {
                     <Container sx={{display: 'flex', justifyContent: 'center'}}>
                         <img src={spinner} width="50%" />
                     </Container>
-                ): recipes.length > 0? recipes.map((recipe) => <RecipeItem key={recipe.id} title={recipe.title} image={recipe.image} />) : (
+                ): recipes.length > 0? recipes.map((recipe) => <RecipeItem key={recipe.id} title={recipe.title} image={recipe.image} id={recipe.id}/>) : (
                         <Container sx={{display: 'flex', justifyContent: 'center'}}>
                             <img src={noRecipes} width="25%" />
                             </Container>
