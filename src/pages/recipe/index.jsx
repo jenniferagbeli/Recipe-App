@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom"
 import useSWR from "swr";
 import spinner from "../../assets/images/infinite-spinner.svg";
 import { Container } from "@mui/material";
+import Navbar from "../../components/navbar/index.jsx"
 
 const getRecipe = (...args) => {
     // prepare url
@@ -13,12 +14,13 @@ const getRecipe = (...args) => {
 
 export default function Recipe() {
     const { id } = useParams();
-    const { data: recipe, isLoading } = useSWR(`https://api.spoonacular.com/recipes/${id}/information`, getRecipe);
+    const { data: recipe, isLoading } = useSWR(`http://localhost:4000/recipes/${id}`, getRecipe);
 
     console.log(recipe, isLoading);
 
     return (
         <>
+        <Navbar/>
             {isLoading? <img src={spinner} /> : (
                 <Container>
                 <h1>{recipe.title}</h1>

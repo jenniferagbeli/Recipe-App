@@ -3,6 +3,7 @@ import RecipeItem from "../../components/recipe-item";
 import { useEffect, useState } from "react";
 import noRecipes from "../../assets/images/undraw_no_data_re_kwbl.svg";
 import spinner from "../../assets/images/infinite-spinner.svg";
+import Navbar from "../../components/navbar";
 
 export default function Recipes() {
     const [recipes, setRecipes] = useState([]);
@@ -12,7 +13,8 @@ export default function Recipes() {
     const searchRecipes = () => {
         setLoading(true);
         // prepare url
-        const url = new URL("https://api.spoonacular.com/recipes/complexSearch");
+        // const url = new URL("https://api.spoonacular.com/recipes/complexSearch");
+        const url = new URL("http://localhost:4000/recipes");
         url.searchParams.append('apiKey', process.env.REACT_APP_SPOONACULAR_API_KEY);
         url.searchParams.append('query', searchItem); //Add the query parameter
 
@@ -26,7 +28,7 @@ export default function Recipes() {
             .then((response) => response.json())
             .then((data) => {
                 // update the recipes state
-               setRecipes(data.results);
+               setRecipes(data);
             })
             .catch((error) => {
                 console.log(error);
@@ -37,6 +39,8 @@ export default function Recipes() {
     useEffect(searchRecipes, []);
 
     return (
+        <>
+        <Navbar />
         <Container sx={{ my: '2rem' }}>
             <TextField
                 fullWidth
@@ -44,21 +48,21 @@ export default function Recipes() {
                 label="Enter a keyboard to search recipes and hit Enter"
                 variant="outlined"
                 value={searchItem}
-                    onChange={(event) => setSearchItem(event.target.value)}
-                onKeyDown={(event) => event.key === 'Enter' && searchRecipes()}/>
+                onChange={(event) => setSearchItem(event.target.value)}
+                onKeyDown={(event) => event.key === 'Enter' && searchRecipes()} />
 
             <Grid sx={{ mt: '1rem' }} container spacing={3}>
                 {loading ? (
-                    <Container sx={{display: 'flex', justifyContent: 'center'}}>
+                    <Container sx={{ display: 'flex', justifyContent: 'center' }}>
                         <img src={spinner} width="50%" />
                     </Container>
-                ): recipes.length > 0? recipes.map((recipe) => <RecipeItem key={recipe.id} title={recipe.title} image={recipe.image} id={recipe.id}/>) : (
-                        <Container sx={{display: 'flex', justifyContent: 'center'}}>
-                            <img src={noRecipes} width="25%" />
-                            </Container>
+                ) : recipes.length > 0 ? recipes.map((recipe) => <RecipeItem key={recipe._id} title={recipe.title} image={recipe.image} id={recipe._id} />) : (
+                    <Container sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <img src={noRecipes} width="25%" />
+                    </Container>
                 )}
             </Grid>
-        </Container>
+        </Container></>
     )
 }
 // line 51---> to add the spinnter place it infront of : recipes.length
