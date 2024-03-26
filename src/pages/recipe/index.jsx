@@ -14,20 +14,20 @@ const getRecipe = (...args) => {
 
 export default function Recipe() {
     const { id } = useParams();
-    const { data: recipe, isLoading } = useSWR(`http://localhost:4000/recipes/${id}`, getRecipe);
+    const { data: recipe, isLoading } = useSWR(`${process.env.REACT_APP_RECIPE_API}/recipes/${id}`, getRecipe);
 
     console.log(recipe, isLoading);
 
     return (
-        <>
+    <>
         <Navbar/>
             {isLoading? <img src={spinner} /> : (
-                <Container>
-                <h1>{recipe.title}</h1>
-                <div dangerouslySetInnerHTML={{__html: recipe.summary}}/> 
-                <img src={recipe.image} />
-                </Container>
+                 <Container>
+                 <h1>{recipe.title}</h1>
+                 <div>{recipe.description}</div>
+                 <img src={`${process.env.REACT_APP_RECIPE_API}/images/${recipe.image}`}  alt={recipe.title}/>
+                 </Container>
             )}
         </>
-    )
+        );
 }

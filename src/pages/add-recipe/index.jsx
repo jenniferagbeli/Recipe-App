@@ -7,13 +7,14 @@ import Navbar from "../../components/navbar";
 const countries = [
     { value: 'GH', label: 'Ghana' },
     { value: 'NG', label: 'Nigeria' },
-    { value: 'BE', label: 'Benin' },
-    { value: 'TG', label: 'Togo' }
+    { value: 'MR', label: 'Morrocco' },
+    { value: 'ET', label: 'Ethopia' }
 ];
 
 export default function AddRecipe() {
     const [loading, setLoading] = useState(false); //you can change the false to true
     const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('New Recipe Added Successfully!');
 
     const addRecipe = async (event) => {
         setLoading(true);
@@ -22,21 +23,23 @@ export default function AddRecipe() {
         // Get form data
         const formData = new FormData(event.target);
         // Post form data to the backend
-
-        const response= await fetch(`http://localhost:4000/recipes`, {
+        const response = await fetch(`${process.env.REACT_APP_RECIPE_API}/recipes`, {
             method: 'POST',
             body: formData,
         })
-        console.log(response)
-        
-
-        
+        //Update message based on 
+        if (response.status !== 201) {
+            setMessage('Failed to add recipe');
+        }
+        //Open collasiple alert
+        setOpen(true);
+        //Set loading to false
         setLoading(false);
     }
 
     return (
         <>
-        <Navbar/>
+            <Navbar />
             <Container sx={{ my: '2rem' }} maxWidth="sm">
                 <h1>Add A New Recipe</h1>
                 <form onSubmit={addRecipe}>
@@ -92,7 +95,7 @@ export default function AddRecipe() {
                                 }
                                 sx={{ mb: 2 }}
                             >
-                                New Recipe Added Successfully!
+                                {message}
                             </Alert>
                         </Collapse>
 
