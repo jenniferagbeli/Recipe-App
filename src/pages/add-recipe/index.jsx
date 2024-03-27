@@ -8,7 +8,8 @@ const countries = [
     { value: 'GH', label: 'Ghana' },
     { value: 'NG', label: 'Nigeria' },
     { value: 'MR', label: 'Morrocco' },
-    { value: 'ET', label: 'Ethopia' }
+    { value: 'ET', label: 'Ethopia' },
+    { value: 'SA', label: 'South Africa'}
 ];
 
 export default function AddRecipe() {

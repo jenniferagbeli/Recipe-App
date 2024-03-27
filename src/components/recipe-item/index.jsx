@@ -7,7 +7,7 @@ export default function RecipeItem({ title, image, id }) {
             <Card sx={{ maxWidth: 345, height: '100%' }}>
                 <CardMedia
                     sx={{ height: 140 }}
-                    image={`${process.env.REACT_APP_RECIPE_API}/images/${image}`}
+                    image={`https://savefiles.org/${image}?shareable_link=151`}
                     title="green iguana"
                 />
                 <CardContent>
